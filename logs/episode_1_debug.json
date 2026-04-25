@@ -1,19 +1,27 @@
 [
   {
     "role": "system",
-    "content": "You are a broadband support troubleshooting agent.\nPick exactly one tool call per turn.\n\nRespond ONLY with valid JSON:\n{\"tool\":\"<tool_name>\",\"args\":{}}"
+    "content": "You are a broadband support troubleshooting agent.\nPick exactly one tool call per turn.\nYou MUST choose a tool from the provided Available tools list. Do NOT invent new tool names.\nIf you are uncertain, prefer diagnostic tools first (account/location/speed/ping/router/docs),\nthen take one corrective action (dns/restart/escalate), then call resolve_ticket.\n\nRespond ONLY with valid JSON:\n{\"tool\":\"<tool_name>\",\"args\":{}}"
   },
   {
     "role": "user",
-    "content": "You are handling a support call. Task: episode 1.\n\nCustomer says: \"Kolkata ping keeps jumping for online classes and calls.\"\nLast tool result: {\"ok\": true, \"message\": \"Episode started.\"}\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+    "content": "You are handling a support call. Task: episode 1.\n\nCustomer says: \"Jaipur FTTH speed has dropped badly over last two days.\"\nLast tool result: {\"ok\": true, \"message\": \"Episode started.\"}\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
   },
   {
     "role": "assistant",
-    "content": "{\"tool\": \"get_ping_stats\", \"args\": {} }"
+    "content": "{\"tool\": \"run_speed_test\", \"args\": {} }"
   },
   {
     "role": "user",
-    "content": "Customer says: \"Kolkata ping keeps jumping for online classes and calls.\"\nLast tool result: {\"ok\": true, \"tool\": \"get_ping_stats\", \"avg_ping_ms\": 121, \"packet_loss_pct\": 1.4}\nHistory: [{\"tool\": \"get_ping_stats\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"get_ping_stats\", \"avg_ping_ms\": 121, \"packet_loss_pct\": 1.4}, \"reward\": 0.9}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+    "content": "Customer says: \"Jaipur FTTH speed has dropped badly over last two days.\"\nLast tool result: {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 44, \"upload_mbps\": 17, \"latency_ms\": 28}\nHistory: [{\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 44, \"upload_mbps\": 17, \"latency_ms\": 28}, \"reward\": 0.9}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\"tool\": \"run_speed_test\", \"args\": {} }"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"Jaipur FTTH speed has dropped badly over last two days.\"\nLast tool result: {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 44, \"upload_mbps\": 17, \"latency_ms\": 28}\nHistory: [{\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 44, \"upload_mbps\": 17, \"latency_ms\": 28}, \"reward\": 0.9}, {\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 44, \"upload_mbps\": 17, \"latency_ms\": 28}, \"reward\": -1.5}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
   },
   {
     "role": "assistant",
@@ -21,15 +29,7 @@
   },
   {
     "role": "user",
-    "content": "Customer says: \"Kolkata ping keeps jumping for online classes and calls.\"\nLast tool result: {\"ok\": true, \"tool\": \"search_troubleshooting_docs\", \"issue\": \"high_latency\", \"doc_snippet\": \"For high latency: verify ping and packet loss, apply DNS optimization, retest.\"}\nHistory: [{\"tool\": \"get_ping_stats\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"get_ping_stats\", \"avg_ping_ms\": 121, \"packet_loss_pct\": 1.4}, \"reward\": 0.9}, {\"tool\": \"search_troubleshooting_docs\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"search_troubleshooting_docs\", \"issue\": \"high_latency\", \"doc_snippet\": \"For high latency: verify ping and packet loss, apply DNS optimization, retest.\"}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
-  },
-  {
-    "role": "assistant",
-    "content": "{\"tool\": \"apply_dns_optimization\", \"args\": {}}"
-  },
-  {
-    "role": "user",
-    "content": "Customer says: \"Kolkata ping keeps jumping for online classes and calls.\"\nLast tool result: {\"ok\": false, \"error\": \"invalid tool 'apply_dns_optimization'\"}\nHistory: [{\"tool\": \"get_ping_stats\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"get_ping_stats\", \"avg_ping_ms\": 121, \"packet_loss_pct\": 1.4}, \"reward\": 0.9}, {\"tool\": \"search_troubleshooting_docs\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"search_troubleshooting_docs\", \"issue\": \"high_latency\", \"doc_snippet\": \"For high latency: verify ping and packet loss, apply DNS optimization, retest.\"}, \"reward\": -1.1}, {\"tool\": \"apply_dns_optimization\", \"args\": {}, \"result\": {\"ok\": false, \"error\": \"invalid tool 'apply_dns_optimization'\"}, \"reward\": -1.5}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+    "content": "Customer says: \"Jaipur FTTH speed has dropped badly over last two days.\"\nLast tool result: {\"ok\": true, \"tool\": \"search_troubleshooting_docs\", \"issue\": \"slow_speed\", \"doc_snippet\": \"For slow speed: check plan, run speed test, inspect router load, restart router.\"}\nHistory: [{\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 44, \"upload_mbps\": 17, \"latency_ms\": 28}, \"reward\": 0.9}, {\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 44, \"upload_mbps\": 17, \"latency_ms\": 28}, \"reward\": -1.5}, {\"tool\": \"search_troubleshooting_docs\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"search_troubleshooting_docs\", \"issue\": \"slow_speed\", \"doc_snippet\": \"For slow speed: check plan, run speed test, inspect router load, restart router.\"}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
   },
   {
     "role": "assistant",
@@ -37,7 +37,15 @@
   },
   {
     "role": "user",
-    "content": "Customer says: \"Kolkata ping keeps jumping for online classes and calls.\"\nLast tool result: {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}\nHistory: [{\"tool\": \"search_troubleshooting_docs\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"search_troubleshooting_docs\", \"issue\": \"high_latency\", \"doc_snippet\": \"For high latency: verify ping and packet loss, apply DNS optimization, retest.\"}, \"reward\": -1.1}, {\"tool\": \"apply_dns_optimization\", \"args\": {}, \"result\": {\"ok\": false, \"error\": \"invalid tool 'apply_dns_optimization'\"}, \"reward\": -1.5}, {\"tool\": \"restart_router\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+    "content": "Customer says: \"Jaipur FTTH speed has dropped badly over last two days.\"\nLast tool result: {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}\nHistory: [{\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 44, \"upload_mbps\": 17, \"latency_ms\": 28}, \"reward\": -1.5}, {\"tool\": \"search_troubleshooting_docs\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"search_troubleshooting_docs\", \"issue\": \"slow_speed\", \"doc_snippet\": \"For slow speed: check plan, run speed test, inspect router load, restart router.\"}, \"reward\": -1.1}, {\"tool\": \"restart_router\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\"tool\": \"change_dns_settings\", \"args\": {}}"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"Jaipur FTTH speed has dropped badly over last two days.\"\nLast tool result: {\"ok\": true, \"tool\": \"change_dns_settings\", \"message\": \"DNS set to ISP recommended profile.\"}\nHistory: [{\"tool\": \"search_troubleshooting_docs\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"search_troubleshooting_docs\", \"issue\": \"slow_speed\", \"doc_snippet\": \"For slow speed: check plan, run speed test, inspect router load, restart router.\"}, \"reward\": -1.1}, {\"tool\": \"restart_router\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}, \"reward\": -1.1}, {\"tool\": \"change_dns_settings\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"change_dns_settings\", \"message\": \"DNS set to ISP recommended profile.\"}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
   },
   {
     "role": "assistant",
@@ -45,6 +53,6 @@
   },
   {
     "role": "user",
-    "content": "Customer says: \"Kolkata ping keeps jumping for online classes and calls.\"\nLast tool result: {\"ok\": true, \"tool\": \"create_support_ticket\", \"ticket_number\": \"TKT-CASE-014\"}\nHistory: [{\"tool\": \"apply_dns_optimization\", \"args\": {}, \"result\": {\"ok\": false, \"error\": \"invalid tool 'apply_dns_optimization'\"}, \"reward\": -1.5}, {\"tool\": \"restart_router\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}, \"reward\": -1.1}, {\"tool\": \"create_support_ticket\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"create_support_ticket\", \"ticket_number\": \"TKT-CASE-014\"}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+    "content": "Customer says: \"Jaipur FTTH speed has dropped badly over last two days.\"\nLast tool result: {\"ok\": true, \"tool\": \"create_support_ticket\", \"ticket_number\": \"TKT-CASE-010\"}\nHistory: [{\"tool\": \"restart_router\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}, \"reward\": -1.1}, {\"tool\": \"change_dns_settings\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"change_dns_settings\", \"message\": \"DNS set to ISP recommended profile.\"}, \"reward\": -1.1}, {\"tool\": \"create_support_ticket\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"create_support_ticket\", \"ticket_number\": \"TKT-CASE-010\"}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
   }
 ]

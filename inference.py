@@ -64,6 +64,9 @@ MODEL_FALLBACKS = [
 SYSTEM_PROMPT = textwrap.dedent("""
     You are a broadband support troubleshooting agent.
     Pick exactly one tool call per turn.
+    You MUST choose a tool from the provided Available tools list. Do NOT invent new tool names.
+    If you are uncertain, prefer diagnostic tools first (account/location/speed/ping/router/docs),
+    then take one corrective action (dns/restart/escalate), then call resolve_ticket.
 
     Respond ONLY with valid JSON:
     {"tool":"<tool_name>","args":{}}
