@@ -1,0 +1,147 @@
+{
+  "action": {
+    "additionalProperties": false,
+    "description": "Action for the BroadbandCare environment.\n\nThe agent picks an action_type from the allowed set and supplies an\noptional payload with any required parameters (e.g. account/transaction IDs\ncaptured from the conversation).\n\nExamples\n--------\n>>> BroadbandcareAction(action_type=\"greet\")\n>>> BroadbandcareAction(action_type=\"ask_account_id\")\n>>> BroadbandcareAction(action_type=\"verify_identity\",\n...                     payload={\"account_id\": \"ACC123\", \"dob\": \"1990-05-01\"})\n>>> BroadbandcareAction(action_type=\"update_system\",\n...                     payload={\"account_id\": \"ACC123\", \"new_mobile\": \"9876543210\"})",
+    "properties": {
+      "metadata": {
+        "additionalProperties": true,
+        "description": "Additional metadata for the action",
+        "title": "Metadata",
+        "type": "object"
+      },
+      "action_type": {
+        "description": "The support action verb. Must be one of: greet, close_ticket, ask_account_id, verify_identity, ask_new_mobile, confirm_update, update_system, show_empathy, ask_transaction_id, verify_payment, activate_service, confirm_resolution, de_escalate, ask_symptom_details, check_line_status, remote_fix, schedule_technician, confirm_fix",
+        "title": "Action Type",
+        "type": "string"
+      },
+      "payload": {
+        "additionalProperties": true,
+        "description": "Optional parameters for the action. E.g. {'account_id': 'ACC123', 'new_mobile': '9876543210'}",
+        "title": "Payload",
+        "type": "object"
+      }
+    },
+    "required": [
+      "action_type"
+    ],
+    "title": "BroadbandcareAction",
+    "type": "object"
+  },
+  "observation": {
+    "additionalProperties": false,
+    "description": "Observation returned after each step in the BroadbandCare environment.\n\nFields\n------\ncustomer_message : str\n    What the simulated customer said in response to the agent's action.\nsystem_feedback : str\n    Feedback from the mock ISP backend system (empty string if the action\n    did not query the backend).\ncustomer_mood : str\n    Current emotional state of the customer.\n    One of: \"cooperative\", \"neutral\", \"angry\", \"hung_up\".\ncustomer_patience : int\n    Number of patience points remaining (0\u20133).\n    Episode ends with a penalty if this reaches 0.\ntask_phase : str\n    Name of the current task phase / state-machine node.\nvalid_next_actions : List[str]\n    Hint list of legal next action_types the agent may take.\n    An agent using this list strictly will learn procedure faster.\nepisode_score : float\n    Cumulative normalised score so far in [0.0, 1.0].\nstep_count : int\n    Number of steps taken so far in this episode.",
+    "properties": {
+      "done": {
+        "default": false,
+        "description": "Whether the episode has terminated",
+        "title": "Done",
+        "type": "boolean"
+      },
+      "reward": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Reward signal from the last action",
+        "title": "Reward"
+      },
+      "metadata": {
+        "additionalProperties": true,
+        "description": "Additional metadata for the observation",
+        "title": "Metadata",
+        "type": "object"
+      },
+      "customer_message": {
+        "default": "",
+        "description": "What the simulated customer said.",
+        "title": "Customer Message",
+        "type": "string"
+      },
+      "system_feedback": {
+        "default": "",
+        "description": "ISP backend system response (empty if no backend query was made).",
+        "title": "System Feedback",
+        "type": "string"
+      },
+      "customer_mood": {
+        "default": "neutral",
+        "description": "Customer emotional state: cooperative | neutral | angry | hung_up",
+        "title": "Customer Mood",
+        "type": "string"
+      },
+      "customer_patience": {
+        "default": 3,
+        "description": "Remaining patience points (0\u20133). Episode ends early at 0.",
+        "title": "Customer Patience",
+        "type": "integer"
+      },
+      "task_phase": {
+        "default": "start",
+        "description": "Current task/state-machine phase name.",
+        "title": "Task Phase",
+        "type": "string"
+      },
+      "valid_next_actions": {
+        "description": "Legal next action_types for the agent to choose from.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Valid Next Actions",
+        "type": "array"
+      },
+      "episode_score": {
+        "default": 0.0,
+        "description": "Cumulative normalised score in [0.0, 1.0].",
+        "title": "Episode Score",
+        "type": "number"
+      },
+      "step_count": {
+        "default": 0,
+        "description": "Steps taken so far in this episode.",
+        "title": "Step Count",
+        "type": "integer"
+      }
+    },
+    "title": "BroadbandcareObservation",
+    "type": "object"
+  },
+  "state": {
+    "additionalProperties": true,
+    "description": "Base class for environment state.\n\nRepresents internal environment state, separate from observations.",
+    "properties": {
+      "episode_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Unique identifier for the current episode",
+        "title": "Episode Id"
+      },
+      "step_count": {
+        "default": 0,
+        "description": "Number of steps taken in the current episode",
+        "minimum": 0,
+        "title": "Step Count",
+        "type": "integer"
+      }
+    },
+    "title": "State",
+    "type": "object"
+  }
+}

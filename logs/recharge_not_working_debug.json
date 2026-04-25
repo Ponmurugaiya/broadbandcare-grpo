@@ -1,0 +1,34 @@
+[
+  {
+    "role": "system",
+    "content": "You are an expert fiber internet customer support agent for a broadband ISP.\nYou handle customer calls step by step, following procedures carefully.\n\nAVAILABLE ACTIONS (you must pick exactly one per turn):\n- greet              : Greet the customer professionally\n- show_empathy       : Acknowledge customer frustration with empathy\n- de_escalate        : Calm an angry customer before proceeding\n- ask_account_id     : Ask the customer for their account ID\n- verify_identity    : Verify customer identity (ask DOB or last payment amount)\n- ask_new_mobile     : Ask for the new mobile number to update\n- confirm_update     : Confirm the details before making changes\n- update_system      : Commit the change in the backend system\n- ask_transaction_id : Ask for the payment/recharge transaction ID\n- verify_payment     : Verify the transaction in the system\n- activate_service   : Push service/internet activation\n- confirm_resolution : Confirm that the issue is resolved with the customer\n- ask_symptom_details: Ask about modem lights, cables, and symptoms\n- check_line_status  : Query the backend for line/connection status\n- remote_fix         : Apply a remote line reset/fix\n- schedule_technician: Book a technician visit for physical faults\n- confirm_fix        : Confirm the fix is complete with the customer\n- close_ticket       : Thank the customer and close the support ticket\n\nRESPONSE FORMAT (respond with ONLY valid JSON, nothing else):\n{\n    \"action_type\": \"<action_name>\",\n    \"payload\": {}\n}\n\nRULES:\n1. Always greet first.\n2. For angry customers, ALWAYS de-escalate before any technical steps.\n3. Show empathy BEFORE asking for account details when customer has payment issues.\n4. Follow the logical order \u2014 don't skip steps.\n5. Always close_ticket at the end."
+  },
+  {
+    "role": "user",
+    "content": "You are handling a support call. Task: recharge not working.\n\nCustomer says: \"\"\nCustomer mood: neutral\nCustomer patience: 3/3\n\nRespond with JSON only: {\"action_type\": \"...\", \"payload\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\n    \"action_type\": \"greet\",\n    \"payload\": {}\n}"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"Yes, I need to change my mobile number please.\"\nCustomer mood: neutral\nCustomer patience: 3/3\n\nRespond with JSON only: {\"action_type\": \"...\", \"payload\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\"action_type\": \"greet\"}"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"I'm not sure what you mean. Can we go step by step?\"\nSystem feedback: Invalid or out-of-order action.\nCustomer mood: neutral\nCustomer patience: 2/3\n\nRespond with JSON only: {\"action_type\": \"...\", \"payload\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\"action_type\": \"greet\"}"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"I'm not sure what you mean. Can we go step by step?\"\nSystem feedback: Invalid or out-of-order action.\nCustomer mood: neutral\nCustomer patience: 1/3\n\nRespond with JSON only: {\"action_type\": \"...\", \"payload\": {}}"
+  }
+]

@@ -1,0 +1,664 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OpenEnv Environment HTTP API",
+    "description": "\n# OpenEnv Environment HTTP API\n\nHTTP API for interacting with OpenEnv environments through a standardized interface.\n\n## Features\n\n* **Environment Reset**: Initialize or restart episodes\n* **Action Execution**: Send actions and receive observations\n* **State Inspection**: Query current environment state\n* **Schema Access**: Retrieve JSON schemas for actions and observations\n\n## Workflow\n\n1. Call `/reset` to start a new episode and get initial observation\n2. Call `/step` repeatedly with actions to interact with environment\n3. Episode ends when observation returns `done: true`\n4. Call `/state` anytime to inspect current environment state\n\n## Documentation\n\n* **Swagger UI**: Available at `/docs`\n* **ReDoc**: Available at `/redoc`\n* **OpenAPI Schema**: Available at `/openapi.json`\n        ",
+    "contact": {
+      "name": "OpenEnv Team",
+      "url": "https://github.com/meta-pytorch/OpenEnv"
+    },
+    "license": {
+      "name": "BSD-3-Clause",
+      "url": "https://github.com/meta-pytorch/OpenEnv/blob/main/LICENSE"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/reset": {
+      "post": {
+        "tags": [
+          "Environment Control"
+        ],
+        "summary": "Reset the environment",
+        "description": "Reset the environment to its initial state and return the first observation.\n\nYou can optionally provide a seed for reproducibility and an episode_id for tracking.",
+        "operationId": "reset_reset_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Environment reset successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResetResponse"
+                },
+                "example": {
+                  "observation": {
+                    "status": "ready",
+                    "data": {}
+                  },
+                  "done": false
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/step": {
+      "post": {
+        "tags": [
+          "Environment Control"
+        ],
+        "summary": "Execute an action in the environment",
+        "description": "Execute an action in the environment and receive the resulting observation.\n\nThe action must conform to the environment's action schema, which can be\nretrieved from the `/schema` endpoint. If the action is invalid,\nthe endpoint will return HTTP 422 with detailed validation errors.\n\nThe response includes:\n- **observation**: The environment's response to the action\n- **reward**: Optional reward signal (float or None)\n- **done**: Boolean indicating if the episode has terminated",
+        "operationId": "step_step_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StepRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Action executed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StepResponse"
+                },
+                "example": {
+                  "observation": {
+                    "status": "success",
+                    "data": {}
+                  },
+                  "reward": 1.0,
+                  "done": false
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error - invalid action format or values",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "type": "string_too_short",
+                      "loc": [
+                        "body",
+                        "action",
+                        "message"
+                      ],
+                      "msg": "String should have at least 1 character",
+                      "input": ""
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error during action execution"
+          }
+        }
+      }
+    },
+    "/state": {
+      "get": {
+        "tags": [
+          "State Management"
+        ],
+        "summary": "Get current environment state",
+        "description": "Retrieve the current internal state of the environment.\n\nThe structure of the state object is defined by the environment's State model.",
+        "operationId": "endpoint_state_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/State"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metadata": {
+      "get": {
+        "tags": [
+          "Environment Info"
+        ],
+        "summary": "Get environment metadata",
+        "description": "Get metadata about this environment.\n\nReturns information about the environment including name, description,\nversion, author, and documentation links.",
+        "operationId": "endpoint_metadata_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvironmentMetadata"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health check",
+        "description": "Check if the environment server is running and healthy.",
+        "operationId": "endpoint_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schema": {
+      "get": {
+        "tags": [
+          "Schema"
+        ],
+        "summary": "Get all JSON schemas",
+        "description": "Get JSON schemas for actions, observations, and state in a single response.\n\nReturns a combined schema object containing:\n- **action**: JSON schema for actions accepted by this environment\n- **observation**: JSON schema for observations returned by this environment\n- **state**: JSON schema for environment state objects\n\nThis is more efficient than calling individual schema endpoints and provides\nall schema information needed to interact with the environment.",
+        "operationId": "get_schemas_schema_get",
+        "responses": {
+          "200": {
+            "description": "Combined schemas retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchemaResponse"
+                },
+                "example": {
+                  "action": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "observation": {
+                    "type": "object",
+                    "properties": {
+                      "response": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "state": {
+                    "type": "object",
+                    "properties": {
+                      "step_count": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mcp": {
+      "post": {
+        "summary": "Mcp Endpoint",
+        "description": "MCP JSON-RPC endpoint for production mode.\n\nBypasses step() overhead and provides direct access to MCP tools.\nSupports tools/list and tools/call methods.",
+        "operationId": "mcp_endpoint_mcp_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Mcp Endpoint Mcp Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EnvironmentMetadata": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the environment"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Description of what the environment does"
+          },
+          "readme_content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Readme Content",
+            "description": "Content of the README file for the environment"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version",
+            "description": "Version of the environment"
+          },
+          "author": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Author",
+            "description": "Author of the environment"
+          },
+          "documentation_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Documentation Url",
+            "description": "URL to the environment's documentation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "description"
+        ],
+        "title": "EnvironmentMetadata",
+        "description": "Metadata about an environment for documentation and UI purposes."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/HealthStatus",
+            "description": "Health status of the environment server",
+            "default": "healthy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "HealthResponse",
+        "description": "Response model for health check endpoint."
+      },
+      "HealthStatus": {
+        "type": "string",
+        "enum": [
+          "healthy",
+          "unhealthy",
+          "degraded"
+        ],
+        "title": "HealthStatus",
+        "description": "Server health status values."
+      },
+      "ResetRequest": {
+        "properties": {
+          "seed": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed",
+            "description": "Random seed for reproducible episodes"
+          },
+          "episode_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Episode Id",
+            "description": "Custom episode identifier"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "ResetRequest",
+        "description": "Request model for environment reset.",
+        "examples": [
+          {
+            "episode_id": "episode-001",
+            "seed": 42
+          },
+          {}
+        ]
+      },
+      "ResetResponse": {
+        "properties": {
+          "observation": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Observation",
+            "description": "Initial observation from the environment"
+          },
+          "reward": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reward",
+            "description": "Initial reward (typically None at reset)"
+          },
+          "done": {
+            "type": "boolean",
+            "title": "Done",
+            "description": "Whether episode is already done (typically False)",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "observation"
+        ],
+        "title": "ResetResponse",
+        "description": "Response model for environment reset."
+      },
+      "SchemaResponse": {
+        "properties": {
+          "action": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Action",
+            "description": "JSON schema for actions accepted by this environment"
+          },
+          "observation": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Observation",
+            "description": "JSON schema for observations returned by this environment"
+          },
+          "state": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "State",
+            "description": "JSON schema for environment state objects"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "observation",
+          "state"
+        ],
+        "title": "SchemaResponse",
+        "description": "Response model for the combined schema endpoint."
+      },
+      "State": {
+        "properties": {
+          "episode_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Episode Id",
+            "description": "Unique identifier for the current episode"
+          },
+          "step_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Step Count",
+            "description": "Number of steps taken in the current episode",
+            "default": 0
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "State",
+        "description": "Base class for environment state.\n\nRepresents internal environment state, separate from observations."
+      },
+      "StepRequest": {
+        "properties": {
+          "action": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Action",
+            "description": "Action to execute, must conform to environment's action schema"
+          },
+          "timeout_s": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timeout S",
+            "description": "Optional timeout in seconds for action execution"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id",
+            "description": "Optional request identifier for tracking"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "action"
+        ],
+        "title": "StepRequest",
+        "description": "Request model for environment step.",
+        "examples": [
+          {
+            "action": {
+              "value": 1
+            },
+            "timeout_s": 30.0
+          },
+          {
+            "action": {
+              "value": 1
+            },
+            "render": true,
+            "verbose": false
+          }
+        ]
+      },
+      "StepResponse": {
+        "properties": {
+          "observation": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Observation",
+            "description": "Observation resulting from the action"
+          },
+          "reward": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reward",
+            "description": "Reward signal from the action"
+          },
+          "done": {
+            "type": "boolean",
+            "title": "Done",
+            "description": "Whether the episode has terminated",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "observation"
+        ],
+        "title": "StepResponse",
+        "description": "Response model for environment step."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Environment Control",
+      "description": "Core operations for environment interaction (reset, step)"
+    },
+    {
+      "name": "State Management",
+      "description": "Operations for inspecting environment state"
+    },
+    {
+      "name": "Environment Info",
+      "description": "Information about the environment"
+    },
+    {
+      "name": "Schema",
+      "description": "JSON Schema endpoints for actions, observations, and state"
+    },
+    {
+      "name": "Health",
+      "description": "Service health and status checks"
+    }
+  ]
+}

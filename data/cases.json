@@ -1,0 +1,202 @@
+[
+  {
+    "case_id": "CASE-001",
+    "issue_type": "slow_speed",
+    "customer_message": "Hi, my fiber is very slow in Chennai this evening. Pages take forever to load.",
+    "location": "Chennai",
+    "plan_type": "fiber",
+    "account": { "plan_speed_mbps": 200, "throttled": false, "usage_gb": 142 },
+    "metrics": { "speed_test_mbps": 38, "upload_mbps": 22, "ping_ms": 24, "packet_loss_pct": 0.0, "signal_strength": "strong", "connected_devices": 14 },
+    "solution_path": ["get_account_details", "run_speed_test", "get_router_stats", "restart_router", "run_speed_test", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-002",
+    "issue_type": "no_internet",
+    "customer_message": "No internet at all since morning in Mumbai. Router lights are on but no connection.",
+    "location": "Mumbai",
+    "plan_type": "ftth",
+    "account": { "plan_speed_mbps": 100, "throttled": false, "usage_gb": 51 },
+    "metrics": { "speed_test_mbps": 0, "upload_mbps": 0, "ping_ms": 0, "packet_loss_pct": 100.0, "signal_strength": "medium", "connected_devices": 6 },
+    "solution_path": ["get_account_details", "get_ping_stats", "change_dns_settings", "restart_router", "run_speed_test", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-003",
+    "issue_type": "intermittent",
+    "customer_message": "Connection keeps dropping every 10 minutes in Delhi. Please help quickly.",
+    "location": "Delhi",
+    "plan_type": "cable",
+    "account": { "plan_speed_mbps": 150, "throttled": false, "usage_gb": 88 },
+    "metrics": { "speed_test_mbps": 120, "upload_mbps": 34, "ping_ms": 39, "packet_loss_pct": 7.0, "signal_strength": "weak", "connected_devices": 9 },
+    "solution_path": ["get_ping_stats", "get_router_stats", "restart_router", "get_ping_stats", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-004",
+    "issue_type": "high_latency",
+    "customer_message": "Gaming ping is terrible in Chennai, always above 140 ms.",
+    "location": "Chennai",
+    "plan_type": "fiber",
+    "account": { "plan_speed_mbps": 300, "throttled": false, "usage_gb": 167 },
+    "metrics": { "speed_test_mbps": 262, "upload_mbps": 110, "ping_ms": 148, "packet_loss_pct": 0.6, "signal_strength": "strong", "connected_devices": 7 },
+    "solution_path": ["get_ping_stats", "search_troubleshooting_docs", "change_dns_settings", "get_ping_stats", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-005",
+    "issue_type": "wrong_plan",
+    "customer_message": "I pay for 200 Mbps in Mumbai but I think I am getting lower plan speed.",
+    "location": "Mumbai",
+    "plan_type": "ftth",
+    "account": { "plan_speed_mbps": 100, "throttled": false, "usage_gb": 70 },
+    "metrics": { "speed_test_mbps": 96, "upload_mbps": 40, "ping_ms": 21, "packet_loss_pct": 0.0, "signal_strength": "strong", "connected_devices": 5 },
+    "solution_path": ["get_account_details", "run_speed_test", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-006",
+    "issue_type": "slow_speed",
+    "customer_message": "Internet feels capped in Delhi after heavy use this month.",
+    "location": "Delhi",
+    "plan_type": "fiber",
+    "account": { "plan_speed_mbps": 250, "throttled": true, "usage_gb": 1150 },
+    "metrics": { "speed_test_mbps": 22, "upload_mbps": 11, "ping_ms": 35, "packet_loss_pct": 0.0, "signal_strength": "strong", "connected_devices": 4 },
+    "solution_path": ["get_account_details", "search_troubleshooting_docs", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-007",
+    "issue_type": "no_internet",
+    "customer_message": "No internet in Coimbatore and I work from home. Need urgent fix.",
+    "location": "Coimbatore",
+    "plan_type": "cable",
+    "account": { "plan_speed_mbps": 75, "throttled": false, "usage_gb": 29 },
+    "metrics": { "speed_test_mbps": 0, "upload_mbps": 0, "ping_ms": 0, "packet_loss_pct": 100.0, "signal_strength": "weak", "connected_devices": 11 },
+    "solution_path": ["get_user_broadband_location", "get_router_stats", "restart_router", "run_speed_test", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-008",
+    "issue_type": "intermittent",
+    "customer_message": "Lucknow connection works then dies repeatedly every evening.",
+    "location": "Lucknow",
+    "plan_type": "ftth",
+    "account": { "plan_speed_mbps": 100, "throttled": false, "usage_gb": 104 },
+    "metrics": { "speed_test_mbps": 71, "upload_mbps": 43, "ping_ms": 66, "packet_loss_pct": 5.0, "signal_strength": "medium", "connected_devices": 12 },
+    "solution_path": ["get_ping_stats", "get_router_stats", "restart_router", "get_ping_stats", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-009",
+    "issue_type": "high_latency",
+    "customer_message": "Hyderabad office VPN is unusable due to lag spikes.",
+    "location": "Hyderabad",
+    "plan_type": "fiber",
+    "account": { "plan_speed_mbps": 300, "throttled": false, "usage_gb": 210 },
+    "metrics": { "speed_test_mbps": 270, "upload_mbps": 130, "ping_ms": 132, "packet_loss_pct": 1.1, "signal_strength": "medium", "connected_devices": 21 },
+    "solution_path": ["get_ping_stats", "change_dns_settings", "restart_router", "get_ping_stats", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-010",
+    "issue_type": "slow_speed",
+    "customer_message": "Jaipur FTTH speed has dropped badly over last two days.",
+    "location": "Jaipur",
+    "plan_type": "ftth",
+    "account": { "plan_speed_mbps": 150, "throttled": false, "usage_gb": 64 },
+    "metrics": { "speed_test_mbps": 44, "upload_mbps": 21, "ping_ms": 28, "packet_loss_pct": 0.2, "signal_strength": "weak", "connected_devices": 10 },
+    "solution_path": ["run_speed_test", "get_router_stats", "restart_router", "run_speed_test", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-011",
+    "issue_type": "wrong_plan",
+    "customer_message": "Plan in Delhi should be 300 Mbps but account page shows 200.",
+    "location": "Delhi",
+    "plan_type": "fiber",
+    "account": { "plan_speed_mbps": 200, "throttled": false, "usage_gb": 82 },
+    "metrics": { "speed_test_mbps": 194, "upload_mbps": 95, "ping_ms": 19, "packet_loss_pct": 0.0, "signal_strength": "strong", "connected_devices": 8 },
+    "solution_path": ["get_account_details", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-012",
+    "issue_type": "no_internet",
+    "customer_message": "Pune broadband dead since reboot. Please check if there is outage.",
+    "location": "Pune",
+    "plan_type": "cable",
+    "account": { "plan_speed_mbps": 60, "throttled": false, "usage_gb": 42 },
+    "metrics": { "speed_test_mbps": 0, "upload_mbps": 0, "ping_ms": 0, "packet_loss_pct": 100.0, "signal_strength": "medium", "connected_devices": 4 },
+    "solution_path": ["get_user_broadband_location", "get_ping_stats", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-013",
+    "issue_type": "intermittent",
+    "customer_message": "Mysuru internet becomes unstable when many devices are connected.",
+    "location": "Mysuru",
+    "plan_type": "fiber",
+    "account": { "plan_speed_mbps": 100, "throttled": false, "usage_gb": 96 },
+    "metrics": { "speed_test_mbps": 58, "upload_mbps": 44, "ping_ms": 52, "packet_loss_pct": 4.2, "signal_strength": "weak", "connected_devices": 24 },
+    "solution_path": ["get_router_stats", "restart_router", "run_speed_test", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-014",
+    "issue_type": "high_latency",
+    "customer_message": "Kolkata ping keeps jumping for online classes and calls.",
+    "location": "Kolkata",
+    "plan_type": "ftth",
+    "account": { "plan_speed_mbps": 200, "throttled": false, "usage_gb": 133 },
+    "metrics": { "speed_test_mbps": 178, "upload_mbps": 88, "ping_ms": 121, "packet_loss_pct": 1.4, "signal_strength": "strong", "connected_devices": 15 },
+    "solution_path": ["get_ping_stats", "change_dns_settings", "get_ping_stats", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-015",
+    "issue_type": "slow_speed",
+    "customer_message": "Nagpur speed is slow and inconsistent despite premium package.",
+    "location": "Nagpur",
+    "plan_type": "cable",
+    "account": { "plan_speed_mbps": 120, "throttled": false, "usage_gb": 58 },
+    "metrics": { "speed_test_mbps": 33, "upload_mbps": 14, "ping_ms": 42, "packet_loss_pct": 2.6, "signal_strength": "medium", "connected_devices": 17 },
+    "solution_path": ["run_speed_test", "get_router_stats", "restart_router", "run_speed_test", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-016",
+    "issue_type": "no_internet",
+    "customer_message": "Bhopal internet went down after storm. Router blinking red.",
+    "location": "Bhopal",
+    "plan_type": "fiber",
+    "account": { "plan_speed_mbps": 100, "throttled": false, "usage_gb": 37 },
+    "metrics": { "speed_test_mbps": 0, "upload_mbps": 0, "ping_ms": 0, "packet_loss_pct": 100.0, "signal_strength": "weak", "connected_devices": 3 },
+    "solution_path": ["get_user_broadband_location", "get_ping_stats", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-017",
+    "issue_type": "wrong_plan",
+    "customer_message": "In Chennai my bill says 150 Mbps plan but portal shows 100 Mbps.",
+    "location": "Chennai",
+    "plan_type": "ftth",
+    "account": { "plan_speed_mbps": 100, "throttled": false, "usage_gb": 76 },
+    "metrics": { "speed_test_mbps": 99, "upload_mbps": 46, "ping_ms": 23, "packet_loss_pct": 0.0, "signal_strength": "strong", "connected_devices": 6 },
+    "solution_path": ["get_account_details", "create_support_ticket", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-018",
+    "issue_type": "intermittent",
+    "customer_message": "Patna connection keeps disconnecting randomly during meetings.",
+    "location": "Patna",
+    "plan_type": "cable",
+    "account": { "plan_speed_mbps": 80, "throttled": false, "usage_gb": 47 },
+    "metrics": { "speed_test_mbps": 53, "upload_mbps": 25, "ping_ms": 61, "packet_loss_pct": 6.9, "signal_strength": "medium", "connected_devices": 13 },
+    "solution_path": ["get_ping_stats", "get_router_stats", "restart_router", "get_ping_stats", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-019",
+    "issue_type": "high_latency",
+    "customer_message": "Noida gaming ping is too high after evening hours.",
+    "location": "Noida",
+    "plan_type": "fiber",
+    "account": { "plan_speed_mbps": 200, "throttled": false, "usage_gb": 119 },
+    "metrics": { "speed_test_mbps": 186, "upload_mbps": 96, "ping_ms": 139, "packet_loss_pct": 0.8, "signal_strength": "strong", "connected_devices": 9 },
+    "solution_path": ["get_ping_stats", "change_dns_settings", "restart_router", "get_ping_stats", "resolve_ticket"]
+  },
+  {
+    "case_id": "CASE-020",
+    "issue_type": "slow_speed",
+    "customer_message": "Indore broadband used to be fast, now buffering all the time.",
+    "location": "Indore",
+    "plan_type": "ftth",
+    "account": { "plan_speed_mbps": 100, "throttled": false, "usage_gb": 72 },
+    "metrics": { "speed_test_mbps": 29, "upload_mbps": 13, "ping_ms": 33, "packet_loss_pct": 1.9, "signal_strength": "weak", "connected_devices": 16 },
+    "solution_path": ["get_account_details", "run_speed_test", "get_router_stats", "restart_router", "run_speed_test", "resolve_ticket"]
+  }
+]

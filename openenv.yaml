@@ -1,0 +1,17 @@
+spec_version: 1
+name: broadbandcare
+type: space
+runtime: fastapi
+app: server.app:app
+port: 8000
+description: >
+  Tool-centric broadband troubleshooting environment for RL training.
+  The agent receives partial observations and chooses support tools to diagnose
+  and resolve customer issues with deterministic transitions and shaped rewards.
+tasks:
+  - name: broadband_support_v1
+    difficulty: medium
+    description: >
+      Agent receives a customer complaint and must select diagnostic and action
+      tools (account lookup, speed/ping checks, router restart, DNS change,
+      escalation, resolve) to match hidden resolution paths in case data.

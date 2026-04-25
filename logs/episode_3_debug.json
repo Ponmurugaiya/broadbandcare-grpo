@@ -1,0 +1,50 @@
+[
+  {
+    "role": "system",
+    "content": "You are a broadband support troubleshooting agent.\nPick exactly one tool call per turn.\n\nRespond ONLY with valid JSON:\n{\"tool\":\"<tool_name>\",\"args\":{}}"
+  },
+  {
+    "role": "user",
+    "content": "You are handling a support call. Task: episode 3.\n\nCustomer says: \"Connection keeps dropping every 10 minutes in Delhi. Please help quickly.\"\nLast tool result: {\"ok\": true, \"message\": \"Episode started.\"}\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\"tool\": \"get_account_details\", \"args\": {}}"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"Connection keeps dropping every 10 minutes in Delhi. Please help quickly.\"\nLast tool result: {\"ok\": true, \"tool\": \"get_account_details\", \"plan_speed_mbps\": 150, \"throttled\": false, \"usage_gb\": 88}\nHistory: [{\"tool\": \"get_account_details\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"get_account_details\", \"plan_speed_mbps\": 150, \"throttled\": false, \"usage_gb\": 88}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\"tool\": \"run_speed_test\", \"args\": {}}"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"Connection keeps dropping every 10 minutes in Delhi. Please help quickly.\"\nLast tool result: {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 120, \"upload_mbps\": 34, \"latency_ms\": 39}\nHistory: [{\"tool\": \"get_account_details\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"get_account_details\", \"plan_speed_mbps\": 150, \"throttled\": false, \"usage_gb\": 88}, \"reward\": -1.1}, {\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 120, \"upload_mbps\": 34, \"latency_ms\": 39}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\"tool\": \"get_router_stats\", \"args\": {}}"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"Connection keeps dropping every 10 minutes in Delhi. Please help quickly.\"\nLast tool result: {\"ok\": true, \"tool\": \"get_router_stats\", \"connected_devices\": 9, \"signal_strength\": \"weak\", \"router_restarted\": false}\nHistory: [{\"tool\": \"get_account_details\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"get_account_details\", \"plan_speed_mbps\": 150, \"throttled\": false, \"usage_gb\": 88}, \"reward\": -1.1}, {\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 120, \"upload_mbps\": 34, \"latency_ms\": 39}, \"reward\": -1.1}, {\"tool\": \"get_router_stats\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"get_router_stats\", \"connected_devices\": 9, \"signal_strength\": \"weak\", \"router_restarted\": false}, \"reward\": 0.9}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\"tool\": \"restart_router\", \"args\": {}}"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"Connection keeps dropping every 10 minutes in Delhi. Please help quickly.\"\nLast tool result: {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}\nHistory: [{\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 120, \"upload_mbps\": 34, \"latency_ms\": 39}, \"reward\": -1.1}, {\"tool\": \"get_router_stats\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"get_router_stats\", \"connected_devices\": 9, \"signal_strength\": \"weak\", \"router_restarted\": false}, \"reward\": 0.9}, {\"tool\": \"restart_router\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}, \"reward\": 0.9}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+  },
+  {
+    "role": "assistant",
+    "content": "{\"tool\": \"run_speed_test\", \"args\": {}}"
+  },
+  {
+    "role": "user",
+    "content": "Customer says: \"Connection keeps dropping every 10 minutes in Delhi. Please help quickly.\"\nLast tool result: {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 138, \"upload_mbps\": 41, \"latency_ms\": 39}\nHistory: [{\"tool\": \"get_router_stats\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"get_router_stats\", \"connected_devices\": 9, \"signal_strength\": \"weak\", \"router_restarted\": false}, \"reward\": 0.9}, {\"tool\": \"restart_router\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"restart_router\", \"message\": \"Router restart command completed.\"}, \"reward\": 0.9}, {\"tool\": \"run_speed_test\", \"args\": {}, \"result\": {\"ok\": true, \"tool\": \"run_speed_test\", \"download_mbps\": 138, \"upload_mbps\": 41, \"latency_ms\": 39}, \"reward\": -1.1}]\nAvailable tools: ['get_account_details', 'get_user_broadband_location', 'run_speed_test', 'get_ping_stats', 'get_router_stats', 'search_troubleshooting_docs', 'change_dns_settings', 'restart_router', 'create_support_ticket', 'resolve_ticket']\n\nRespond with JSON only: {\"tool\": \"...\", \"args\": {}}"
+  }
+]
